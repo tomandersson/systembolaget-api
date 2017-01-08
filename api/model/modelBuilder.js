@@ -1,6 +1,6 @@
 const moment = require('moment-timezone');
 const env = require('../env');
-const debug = require('debug')('modelBuilder');
+const debug = require('../util/debugWrapper')('modelBuilder');
 
 const WINE_TYPES = [
     'röda',
@@ -15,21 +15,24 @@ const WINE_TYPES = [
 const BEER_TYPE = 'öl';
 
 function buildWine(product) {
+
   let wine = {
-    itemId: Number(product.nr),
+    id: Number(product.nr),
     articleId: Number(product.Artikelid),
     name: product.Namn,
     type: product.Namn2,
     producer: product.Producent,
-    country: product.Ursprungslandnamn,
+    country: product.Ursprunglandnamn,
     region: product.Ursprung,
     vintage: Number(product.Argang),
+    contents: product.RavarorBeskrivning,
     supplier: product.Leverantor,
     line: product.Sortiment,
     availableFrom: product.Saljstart,
     price: Number(product.Prisinklmoms),
     volume: Number(product.Volymiml),
-    packaging: product.Forpackning
+    packaging: product.Forpackning,
+    group: product.Varugrupp.toLowerCase()
   };
 
   if (wine.type == '' || wine.type === wine.producer) {

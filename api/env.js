@@ -40,7 +40,7 @@ module.exports = (function() {
       product: 'https://www.systembolaget.se/api/assortment/products/xml'
     },
     port: process.env.PORT || 3000,
-    modelUpdateInterval: 60000,
+    modelUpdateInterval: 3600000,
     logConfig: {
       namespace: 'systembolaget-api'
     }
