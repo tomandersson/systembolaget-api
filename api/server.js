@@ -8,6 +8,9 @@ const env = require('./env');
 const http = require('http');
 const modelService = require('./service/modelService');
 const searchRoute = require('./routing/search');
+const countryListRoute = require('./routing/countryList');
+const supplierListRoute = require('./routing/supplierList');
+const producerListRoute = require('./routing/producerList');
 
 const app = express();
 
@@ -17,6 +20,9 @@ app.use(cookieParser());
 
 // ROUTES
 app.get('/health', (req, res) => res.send("app is upp"));
+app.use('/api/country/', countryListRoute);
+app.use('/api/producer/', producerListRoute);
+app.use('/api/supplier/', supplierListRoute);
 app.use('/api/', searchRoute);
 
 // catch 404 and forward to error handler
@@ -28,11 +34,8 @@ app.use(function(req, res, next) {
 
 app.use(function(err, req, res, next) {
   let errStatus = err.status || 500;
-  let errView = errStatus === 404 ? '404' : '500';
-  res.status(errStatus);
   debug(err.message);
-  res.set('Content-Type', 'text/xml');
-  res.render('errors/' + errView);
+  res.status(errStatus).send(err);
 });
 
 

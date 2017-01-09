@@ -3,6 +3,12 @@
 ## TODO
 
  * Search frontend
+ * Find by ..
+    * Country
+    * Region
+    * Name
+    * Producer
+    * Supplier
  * Filtering
    * Country
    * Region
