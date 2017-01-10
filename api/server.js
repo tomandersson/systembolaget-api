@@ -21,8 +21,11 @@ app.use(cookieParser());
 // ROUTES
 app.get('/health', (req, res) => res.send("app is upp"));
 app.use('/api/country/', countryListRoute);
+app.use('/api/land/', countryListRoute);
 app.use('/api/producer/', producerListRoute);
+app.use('/api/producent/', producerListRoute);
 app.use('/api/supplier/', supplierListRoute);
+app.use('/api/importör/', supplierListRoute);
 app.use('/api/', searchRoute);
 
 // catch 404 and forward to error handler
