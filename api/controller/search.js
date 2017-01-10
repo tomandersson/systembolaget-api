@@ -1,4 +1,5 @@
 const performSearch = require('../elasticsearch/search').performSearch;
+const filterBuilder = require('../util/filterBuilder');
 
 function findById(req, res, next) {
   let id = req.params.itemId;
@@ -19,8 +20,13 @@ function search(req, res, next) {
     'from' : 0,
     'size' : 10000,
     'query': {
-      'match': {
-        '_all': query
+      bool: {
+        must: {
+          match: {
+            '_all': query
+          }
+        },
+        filter: filterBuilder.getFilters(req)
       }
     }
   }).then((data) => res.json(data))
