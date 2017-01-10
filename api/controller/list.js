@@ -1,4 +1,5 @@
 const performSearch = require('../elasticsearch/search').performSearch;
+const filterBuilder = require('../util/filterBuilder');
 
 const PARAMETERS = {
   country: 'country',
@@ -7,7 +8,7 @@ const PARAMETERS = {
 };
 
 function _getCountryQuery(params) {
-  let must = [
+  let query = [
       {
         match_phrase: {
           country: params.country
@@ -15,18 +16,14 @@ function _getCountryQuery(params) {
       }];
 
     if (params.region) {
-      must.push({
+      query.push({
         match_phrase: {
           region: params.region
         }
       });
     }
 
-  return {
-    bool: {
-      must: must
-    }
-  };
+  return query;
 }
 
 function listBy(parameter, req, res, next) {
@@ -53,7 +50,12 @@ function listBy(parameter, req, res, next) {
   performSearch({
     'from' : 0,
     'size' : 10000,
-    'query': query
+    'query': {
+      bool: {
+        must: query,
+        filter: filterBuilder.getFilters(req)
+      }
+    }
   })
       .then((data) => res.json(data))
       .catch((err) => {
