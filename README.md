@@ -40,7 +40,7 @@ All endpoints support filtering. The following filters are available:
 
 ## TODO
 
- * Search frontend
+ * Search frontend using something like https://react-bootstrap.github.io
  * Filtering
    * Grape
    * Availability
