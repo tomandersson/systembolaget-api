@@ -26,6 +26,12 @@ const availableFilters = {
 
 const availableFilterNames = Object.keys(availableFilters);
 const numberRangeRegex = /^(\d+)-(\d+)$/;
+const groups = {
+  red: ['rött vin', 'röda'],
+  rose: ['rosé', 'rosévin'],
+  sparkling: ['mousserande vin'],
+  white: ['vitt vin', 'vita']
+};
 
 function termsFilter(fieldName, terms) {
   if (!Array.isArray(terms)) {
@@ -69,7 +75,23 @@ function dateFilter(fieldName, dateString) {
 }
 
 function wineGroupFilter(fieldName, groupName) {
+  let groupTerms = groups[groupName] || [];
+  let filter = {
+    bool: {
+      should: []
+    }
+  };
 
+  groupTerms.map((term) => {
+        let obj = {
+          match_phrase: {}
+        };
+        obj.match_phrase[fieldName] = term;
+        return obj;
+      })
+      .map((match) => filter.bool.should.push(match));
+
+  return filter;
 }
 
 function _getFilters(req) {
