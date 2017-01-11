@@ -1,5 +1,3 @@
-// TODO: add mapping for group
-
 /*
 build search filter from http query.
 filters:
