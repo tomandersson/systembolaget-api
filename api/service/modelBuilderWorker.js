@@ -60,6 +60,11 @@ function handleResult(model) {
   }
 }
 
+function exit() {
+  debug('Worker process exiting');
+  process.exit(0);
+}
+
 function start() {
   debug('Starting fetch and build of new model');
   getRepo()
@@ -79,7 +84,7 @@ process.on('message', (message) => {
   }
 });
 
-process.on('SIGTERM', () => debug('Worker process exiting'));
+process.on('SIGTERM', () => exit());
 
 debug('modelBuilderWorker initialized');
 
