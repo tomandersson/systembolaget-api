@@ -22,7 +22,7 @@ function search(req, res, next) {
     'query': {
       bool: {
         must: {
-          match: {
+          prefix: {
             '_all': query
           }
         },
